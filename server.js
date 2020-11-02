@@ -66,17 +66,17 @@ function sendMail(receiver, otp = -1) {
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'examportalcoremvc@gmail.com',
-            pass: 'examportal@123'
+            user: 'Your Email',
+            pass: 'Your Password'
         }
     });
     var mailOptions;
     if (otp == -1) {
         mailOptions = {
-            from: 'examportalcoremvc@gmail.com',
+            from: 'Your Email',
             to: receiver,
             subject: 'no-reply DiscussionForum',
-            html: '<img src="cid:dsforum" width="1200" height="800"/>',
+            html: '<img src="cid:dsforum" width="1200" height="800"/>', //img that is shown in email
             attachments: [{
                 filename: 'mail.jpg',
                 path: './mail1.jpg',
@@ -85,7 +85,7 @@ function sendMail(receiver, otp = -1) {
         };
     } else {
         mailOptions = {
-            from: 'examportalcoremvc@gmail.com',
+            from: 'Your Email',
             to: receiver,
             subject: 'no-reply DiscussionForum',
             html: '<h3>Request for changing password received<h3><h4>Otp is <b>' + otp + '</b></h4>' + '<h4>Please Donot Share with Anyone</h4><br/><h5>If you are not one who requested , contact <b>DiscussionForum@df.com</b></h5>'
