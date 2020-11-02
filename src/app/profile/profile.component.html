@@ -1,0 +1,115 @@
+<div class="container bootstrap snippet">
+    <div class="row">
+        <div class="col-sm-10">
+            <h3>{{user['username']}}<small><span class="badge badge-info"><i>verified</i></span></small></h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="text-center shadow">
+                <img src="assets/images/profile/{{user['username']+'.jpg'}}" class="avatar img-circle img-thumbnail shadow" alt="userimage"><br/><br/>
+                <!-- <h5>Change avatar</h5> -->
+                <!-- <input type="file" class="text-center center-block"> -->
+                <button type="button" *ngIf="!alreadyfollowing && editflag" style="align-content: center;" class="btn btn-info" (click)="Follow()">Follow</button>
+                <button type="button" *ngIf="editflag && alreadyfollowing" style="align-content: center;" class="btn btn-danger" (click)="UnFollow()">UnFollow</button>
+            </div>
+
+            <hr/><br/>
+
+            <div class="card shadow">
+                <div class="card-header">Website <i class="fa fa-link fa-1x"></i></div>
+                <div class="card-body"><a href="https://github.com/HarshitTarsariya">GitHub</a></div>
+            </div><br/>
+
+            <ul class="list-group shadow">
+                <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Answered</strong></span> {{allPost.length}}</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Following</strong></span> {{user['following'].length-1}}</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> {{user['follower'].length-1}}</li>
+            </ul><br/>
+
+            <div class="card shadow">
+                <div class="card-header">Social Media</div>
+                <div class="card-body">
+                    <i class="fa fa-facebook fa-2x"><a href="#"></a></i> <i class="fa fa-github fa-2x"></i> <i class="fa fa-twitter fa-2x"></i> <i class="fa fa-pinterest fa-2x"></i> <i class="fa fa-google-plus fa-2x"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-7">
+            <ul class="nav nav-tabs" id="myTab">
+                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#user_details" role="tab">Personal Detail</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#answered_questions" role="tab">Answered Questions</a></li>
+            </ul>
+            <br/>
+            <div class="tab-content">
+                <div class="tab-pane active" id="user_details">
+                    <form class="form" method="post" id="registrationForm" #registrationForm="ngForm" (ngSubmit)="OnSubmit()">
+                        <div class="form-group ">
+                            <div class="col-xs-12 ">
+                                <label for="first_name "><h4>First name</h4></label>
+                                <input type="text " [disabled]="editflag " class="form-control " name="first_name " id="first_name " placeholder="first name " [(ngModel)]="user[ 'firstname'] " title="enter your first name if any. " required>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <div class="col-xs-12 ">
+                                <label for="last_name "><h4>Last name</h4></label>
+                                <input type="text " [disabled]="editflag " class="form-control " name="last_name " id="last_name " placeholder="last name " [(ngModel)]="user[ 'lastname'] " title="enter your last name if any. " required>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <div class="col-xs-12 ">
+                                <label for="mobile"><h4>Mobile</h4></label>
+                                <input type="text" [disabled]="editflag " class="form-control " name="mobile " id="mobile " placeholder="enter mobile number " [(ngModel)]="user[ 'mobile'] " title="enter your mobile number if any." pattern="[7-9]{1}[0-9]{9}" required>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <div class="col-xs-12 ">
+                                <label for="email"><h4>Email</h4></label>
+                                <input type="email" [disabled]="editflag " class="form-control " name="email " id="email " placeholder="abc@email.com " [(ngModel)]="user[ 'email'] " title="enter your email." pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+                            </div>
+                        </div>
+                        <div class="form-group " [class.d-none]="editflag ">
+                            <div class="col-xs-12 ">
+                                <label for="Password"><h4>Password</h4></label>
+                                <input type="password" class="form-control" name="Password" id="Password" placeholder="password" [(ngModel)]="user[ 'password']" title="enter your password. " minlength="8" required>
+                            </div>
+                        </div>
+                        <div class="form-group " [class.d-none]="editflag ">
+                            <div class="col-xs-12 ">
+                                <label for="Confirmpassword"><h4>Confirm Password</h4></label>
+                                <input type="password" class="form-control" appConfirmEqualValidator="Password" name="Confirmpassword" id="Confirmpassword" placeholder="Confirmpassword" [(ngModel)]="user[ 'confirmpassword'] " title="Confirmpassword" #Confirmpasswordcontrol="ngModel"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <div class="col-xs-12 ">
+                                <br>
+                                <button class="btn btn-lg btn-success" [class.d-none]="editflag || registrationForm.invalid" type="submit" id="savebutton">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <br/>
+                <div class="tab-pane " id="answered_questions">
+                    <div class="container-fluid ">
+                        <div class="search-results" infiniteScroll [infiniteScrollDistance]="80" [infiniteScrollThrottle]="2000" (scrolled)="onScroll()">
+                            <div *ngFor="let post of allPost">
+                                <div class="card" style="width:auto">
+                                    <div class="card-body ">
+                                        <h4 class="card-title ">{{post['title']}}</h4>
+                                        <p class="card-text ">......</p>
+                                        <a routerLink="../../answer/{{post['id']}}" class="btn btn-primary stretched-link ">See Answer</a>
+                                    </div>
+                                </div>
+                                <br/>
+                            </div>
+                            <div class="col-md-12 p-5">
+                                <ngx-spinner bdOpacity=0.9 bdColor="" size="default" color="#004de6" type="ball-pulse-sync" [fullScreen]="false"></ngx-spinner>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

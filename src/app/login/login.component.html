@@ -1,0 +1,157 @@
+<div class="btn-group" style="margin-left:15px;">
+    <button class="submitbutton btn" onclick="document.getElementById('id01').style.display='block';document.getElementById('loading_login').style.display='block'" style="margin-top:20px">
+        <span class="spinner-border spinner-border-sm" id="loading_login" style="display:none"></span>
+        Login
+    </button>
+    <button class="submitbutton btn" onclick="document.getElementById('id02').style.display='block';document.getElementById('loading_admin_login').style.display='block'" style="margin-top:20px">
+    <span class="spinner-border spinner-border-sm" id="loading_admin_login" style="display:none"></span>
+        Login as Admin
+    </button>
+
+    <button class="submitbutton btn" onclick="document.getElementById('id03').style.display='block';document.getElementById('loading_register').style.display='block'" style="margin-top:20px">
+    <span class="spinner-border spinner-border-sm" id="loading_register" style="display:none"></span>
+        Register
+    </button>
+
+    <button class="submitbutton btn" style="margin-top:20px">Register Admin NOT AVAILABLE</button><br/>
+</div>
+<br/>
+<br/><br/><br/>
+<br/>
+
+<div id="id01" class="modal1 container-fluid">
+    <div class="modal-content1 animate">
+        <div class="imgcontainer1">
+            <img src="../assets/images/user.jpg" alt="Avatar" class="avatar">
+        </div>
+        <div class="container1" style="color:white">
+            <form #Loginuserform="ngForm" (ngSubmit)="Loginvalidationforuser(Loginuserform)">
+                <label for="Username"><b>Username</b></label>
+                <input class="input" id="Username" name="Username" type="text" placeholder="Enter Username" [(ngModel)]="login.username" required>
+
+                <label for="Password_user"><b>Password</b></label>
+                <input class="input" id="Password_user" name="Password_user" type="password" placeholder="Enter Password" [(ngModel)]="login.password" required><br/> &nbsp;&nbsp;&nbsp;
+
+
+                <input class="form-check-input" id="Pvisibility" name="Pvisibility" (change)="Passwordvisibility($event)" type="checkbox">
+                <label for="Pvisibility"><b>Show Password</b></label>
+                <br/><br/>
+
+                <label [style.visibility]="Credentials?'visible':'hidden'" class="bg-danger text-white">Invalid Credentials</label><br/>
+                <button class="submitbutton" name="loginbutton" [disabled]="Loginuserform.invalid" type="submit">Login</button>
+                <span class="psw">Forgot <a  routerLink="/forgetpassword" data-dismiss="modal1" >password?</a></span>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="id02" class="modal1 container-fluid">
+    <div class="modal-content1 animate">
+        <div class="imgcontainer1">
+            <img src="../assets/images/admin.jpg" alt="Avatar" class="avatar">
+        </div>
+        <div class="container1" style="color:white">
+            <form #Loginuserform="ngForm" (ngSubmit)="Loginvalidationforadmin(Loginuserform)">
+                <label for="Username_admin"><b>Username</b></label>
+                <input class="input" name="username" id="Username_admin" type="text" placeholder="Enter Username" [(ngModel)]="login.username" required>
+
+                <label for="Password_admin"><b>Password</b></label>
+                <input class="input" name="password" id="Password_admin" type="password" placeholder="Enter Password" [(ngModel)]="login.password" required><br/> &nbsp;&nbsp;&nbsp;
+                <input class="form-check-input" id="Pvisibility1" name="Pvisibility" (change)="Passwordvisibility($event)" type="checkbox">
+                <label for="Pvisibility"><b>Show Password</b></label>
+                <br/><br/>
+
+                <label [style.visibility]="Credentials?'visible':'hidden'" class="bg-danger text-white">Invalid Credentials</label><br/>
+                <button class="submitbutton" name="loginbutton" [class.d-none]="Loginuserform.invalid" type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="id03" class="modal1 container-fluid">
+    <div class="modal-content1 animate">
+        <div class="imgcontainer1">
+            <h1 style="text-align:center;color:white;">Register</h1>
+        </div>
+        <div class="container1" style="color:white">
+            <form #userform="ngForm" (ngSubmit)="Registernewuser(imageinput)" enctype="multipart/form-data" method="post">
+                <div>
+                    <label for="Firstname">First Name</label>
+                    <input class="input" type="text" id="Firstname" name="Firstname" [(ngModel)]="register.firstname" #Firstnamecontrol="ngModel" required />
+                    <span style="color:red" title="First Name" *ngIf="Firstnamecontrol.invalid && Firstnamecontrol.touched">First Name seems problematic</span>
+                </div>
+                <div>
+                    <label for="Lastname">Last Name</label>
+                    <input class="input" type="text" id="Lastname" name="Lastname" [(ngModel)]="register.lastname" #Lastnamecontrol="ngModel" required />
+                    <span style="color:red" title="Last Name" *ngIf="Lastnamecontrol.invalid && Lastnamecontrol.touched">Last Name seems problematic</span>
+                </div>
+
+                <div>
+                    <label for="Registername">User Name</label>
+                    <input class="input" type="text" id="Registername" name="Registername" (keyup)="Checkusername(Registernamecontrol.value)" [(ngModel)]="register.username" #Registernamecontrol="ngModel" required />
+                    <span style="color:red" *ngIf="Usernameflag"><b>{{Registernamecontrol.value}}</b> Already exist. Try out <a (click)="Usernamesuggestion()" id="Suggestion" style="cursor: pointer;"><u><b>{{Usernamesuggest}}</b></u></a> ?</span>
+                    <span style="color:red" title="Unique username which is displayed on site" *ngIf="Registernamecontrol.invalid && Registernamecontrol.touched">User Name is required</span>
+
+                </div>
+
+                <div>
+                    <label for="Password">Password</label>
+                    <input class="input" type="password" id="Password" name="Password" [(ngModel)]="register.password" #Passwordcontrol="ngModel" required />
+                    <span style="color:red" title="Should be strong" *ngIf="Passwordcontrol.invalid && Passwordcontrol.touched" minlength="6" maxlength="16">Password is required</span>
+                </div>
+                <div>
+                    <label for="Confirmpassword">Confirm Password</label>
+                    <input class="input" appConfirmEqualValidator="Password" type="password" id="Confirmpassword" name="Confirmpassword" [(ngModel)]="register.confirmpassword" #Confirmpasswordcontrol="ngModel" required />
+                    <span style="color:red" title="Should be strong" *ngIf="Confirmpasswordcontrol.invalid && !Confirmpasswordcontrol.errors?.notEqual  && Confirmpasswordcontrol.touched">Confirmation is Required</span>
+                    <span style="color:red" title="Password and Confirm Password donot match" *ngIf="Confirmpasswordcontrol.errors?.notEqual && Confirmpasswordcontrol.touched && !Confirmpasswordcontrol.errors?.required">Password and Confirm Password donot match</span>
+                </div>
+                <div>
+                    <label for="Email">Email</label>
+                    <input class="input" type="email" id="Email" name="Email" [(ngModel)]="register.email" #Emailcontrol="ngModel" required />
+                    <span style="color:red" title="eg: Jon@ac.in" *ngIf="Emailcontrol.invalid && Emailcontrol.touched">Email seems Wrong</span>
+                </div>
+                <div>
+                    <label for="Mobile">Mobile</label>
+                    <input class="input" type="tel" id="Mobile" name="Mobile" [(ngModel)]="register.mobile" #Mobilecontrol="ngModel" required />
+                    <span style="color:red" title="Number Should be without Country code" *ngIf="Mobilecontrol.invalid && Mobilecontrol.touched">Mobile number is invalid</span>
+                </div>
+                <div>
+                    <label for="Profile">Profile Photo</label>
+                    <input class="input" #imageinput ngModel type="file" id="Profile" name="Profile" required/>
+                </div>
+
+                <button type="submit" data-dismiss="modal1" class="submitbutton " name="register" [class.d-none]="userform.invalid || Usernameflag">Register</button>
+            </form>
+            <h5>By Registering you accept our <a data-toggle="modal" data-target="#termsandconditions" class="alert-link " style="width:100%;cursor: pointer; ">Terms and Conditions</a>
+            </h5>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="termsandconditions">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title ">Terms and Conditions</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                Introduction These Website Standard Terms and Conditions written on this webpage shall manage your use of our website, Webiste Name accessible at Website.com. These Terms will be applied fully and affect to your use of this Website. By using this Website,
+                you agreed to accept all terms and conditions written in here. You must not use this Website if you disagree with any of these Website Standard Terms and Conditions. Minors or people below 18 years old are not allowed to use this Website.
+                Intellectual Property Rights Other than the content you own, under these Terms, Company Name and/or its licensors own all the intellectual property rights and materials contained in this Website. You are granted limited license only for
+                purposes of viewing the material contained on this Website. Restrictions You are specifically restricted from all of the following: publishing any Website material in any other media; selling, sublicensing and/or otherwise commercializing
+                any Website material; publicly performing and/or showing any Website material; using this Website in any way that is or may be damaging to this Website; using this Website in any way that impacts user access to this Website; using this
+                Website contrary to applicable laws and regulations, or in any way may cause harm to the Website, or to any person or business entity; engaging in any data mining, data harvesting, data extracting or any other similar activity in relation
+                to this Website; using this Website to engage in any advertising or marketing. Certain areas of this Website are restricted from being access by you and Company Name may further restrict access by you to any areas of this Website, at any
+                time, in absolute discretion. Any user ID and password you may have for this Website are confidential and you must maintain confidentiality as well.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+</script><br/><br/>
+<br/><br/><br/><br/>

@@ -1,0 +1,71 @@
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" style="cursor: pointer;" routerLink="" role="tab">Recent Questions</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" style="cursor: pointer;" data-toggle="tab" role="tab">Following Questions</a>
+    </li>
+    <div *ngIf="admin">
+        <span class="badge badge-primary">Admin</span>
+    </div>
+</ul>
+<br/>
+<div class="search-results" infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="2000" (scrolled)="onScroll()">
+    <div *ngFor="let post of allPost;">
+        <div class="card p-4 shadow individual">
+            <div class="card-header shadow">
+                <div class="media">
+                    <img routerLink="../profile/{{post['asker']}}" style="cursor: pointer;" class="d-flex rounded-circle avatar z-depth-1-half mr-3 shadow" src="assets/images/profile/{{post['asker']+'.jpg'}}" alt="Anonymous">
+                    <div class="media-body mt-1 font-weight-bold">
+                        <a routerLink="../profile/{{post['asker']}}"><strong>{{post['asker']}} <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                          </svg></strong></a>
+                        <p class="card-text" style="float:right"><i class="fa fa-clock-o" aria-hidden="true"></i> {{post['time']}}</p>
+                        <p class="card-text ">
+                            {{post['title']}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-1">
+                        <div class="rating">
+                            <div><i class="fa fa-chevron-up"></i></div>
+                            <div><i class="fa fa-chevron-down"></i></div>
+                        </div>
+                    </div>
+                    <div class="col-10">
+                        <!-- <img src="assets/images/homeimage2.jpg" style="width:100px; float:right; clear:right;"> -->
+                        <p>{{post['question']}} </p>
+                        <br/>
+
+                        <div *ngFor="let tag of post['tags']">
+                            <div class="chip" style="float: left;"> {{tag}}</div>
+                        </div>
+
+                        <br/><br/><br/>
+                        <div class="jumbotron " style="padding:5px;height:30px ">
+                            <p><i class="fa fa-eye " aria-hidden="true "></i> {{post['answers'].length}} views</p>
+                        </div>
+                        <a routerLink="../answer/{{post['_id']}}" class="btn btn-primary ">Answer</a> &nbsp;
+                        <a *ngIf="admin" (click)="DeletePost(post['_id'])" class="btn btn-danger">Delete</a>
+                        <!-- <div class="dropdown " style="float:right ">
+                            <button class="btn dropdown-toggle " type="button " id="dropdownMenu2 " data-toggle="dropdown " aria-haspopup="true " aria-expanded="false ">
+                            </button>
+                            <div class="dropdown-menu">
+                                <button class="dropdown-item delete " type="button ">Delete</button>
+                                <button class="dropdown-item " type="button ">Edit</button>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="my-4">
+    </div>
+    <!-- Spinner -->
+    <div class="col-md-12 p-5">
+        <ngx-spinner bdOpacity=0.9 bdColor="" size="default" color="#004de6" type="ball-pulse-sync" [fullScreen]="false"></ngx-spinner>
+    </div>
+</div>

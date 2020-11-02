@@ -1,0 +1,12 @@
+<div class="container-fluid">
+    <form class="animate" (ngSubmit)="OnSubmit(otp.value)">
+        <div class="modal-content1 container1" style="color:white">
+            <input class="input" type="text" #otp ngModel placeholder="Enter OTP" name="otp" required>
+            <button class="submitbutton" type="submit" name="user">Generate New Password</button><br/><br/>
+            <div class="progress">
+                <div class="progress-bar bg-dark progress-bar-striped progress-bar-animated" style="width:67%"></div>
+            </div><br/>
+            <span *ngIf="otperror" class="badge badge-danger">*Invalid Otp</span>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,98 @@
+<br/>
+<div class="container-fluid bootstrap snippet">
+    <div class="row">
+
+        <div class="col-sm-2">
+            <div class="md-form active-cyan-2 mb-3 shadow">
+                <input class="form-control" (keyup)="loadSuggestion(search.value)" #search ngModel name="search" type="text" placeholder="Search" aria-label="Search" />
+                <div *ngIf="showsuggestion" class="suggestions shadow">
+                    <div *ngFor="let sugg of suggestions" id="suggestions">
+                        <span class="form-control" style="cursor: pointer;" routerLink="profile/{{sugg}}" (click)="showsuggestion=false">{{sugg}}<small style="float:right">user</small></span>
+                    </div>
+                </div>
+                <div *ngIf="showsuggestion" class="suggestions shadow">
+                    <div *ngFor="let sugg of tagsuggestions">
+                        <span class="form-control" style="cursor: pointer;" routerLink="tags/{{sugg}}" (click)="showsuggestion=false">{{sugg}}<small style="float:right">tag</small></span>
+                    </div>
+                </div>
+            </div>
+            <!-- <div *ngIf="admin">
+                <span class="badge badge-primary ">Admin User</span>
+            </div> -->
+        </div>
+        <div class="col-sm-7">
+            <router-outlet></router-outlet>
+        </div>
+        <div class="col-sm-3">
+            <a data-toggle="modal" data-target="#questionpopup" class="btn btn-primary shadow" style="width:100%">Ask Question</a><br/><br/>
+            <div class="card p-4 shadow individual">
+                <div class="card-header">Top Contributors</div>
+                <div class="card-body" *ngFor="let contributor of topcontributors">
+                    <div class="media">
+                        <img class="d-flex rounded-circle avatar z-depth-1-half mr-3 img-responsive" style="cursor: pointer;" routerLink="profile/{{contributor['username']}}" src="assets/images/profile/{{contributor['username']+'.jpg'}}" alt="Anonymous">
+                        <div class="media-body mt-1 font-weight-bold">
+                            <a routerLink="profile/{{contributor['username']}}"><strong>{{contributor['username']}}</strong></a><br/>
+                            <small class="card-text "><b>Points : {{contributor['contribution']*50}}</b></small><br/>
+                            <span *ngIf="contributor['contribution'] > 2; else elseblock" class="badge badge-danger"><i>Professional</i></span>
+                            <ng-template #elseblock>
+                                <span class="badge badge-primary"><i>Expert</i></span>
+                            </ng-template>
+
+                            <!-- <span *ngIf="contributor['contribution'] >= 1" class="badge badge-info">Specialist</span> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="card p-4 shadow ">
+                <div class="card-header ">Trending Tags</div><br/>
+                <div clas="card-body ">
+                    <div *ngFor="let tag of trendingtags">
+                        <a class="chip" style="float: left;cursor: pointer;" routerLink="tags/{{tag}}">{{tag}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="questionpopup">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header shadow">
+                        <h5 class="modal-title" id="exampleModalLabel ">New Question</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="questionform" #questionform="ngForm" (ngSubmit)="OnSubmit(question_title,question_tag,question_text) ">
+                            <div class="form-group">
+                                <label for="question_title " class="col-form-label">Question Title : </label>
+                                <input type="text " class="form-control shadow" name="question_title" id="question_title" #question_title ngModel required>
+                            </div>
+                            <div class="form-group">
+                                <label for="question-text" class="col-form-label">Question :</label>
+                                <textarea class="form-control shadow" rows="10" id="question_text" name="question_text" #question_text ngModel required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="question_tags" class="col-form-label ">Relevant <b>Tags</b> : </label>
+                                <input type="text" class="form-control shadow" id="question_tag" name="question_tag" #question_tag ngModel required>
+                                <label class="col-form-check-label ">If more than one provide comma's eg: education,health</label>
+                            </div>
+                            <!-- <div class="form-group ">
+                                <label for="images " class="col-form-label ">Images for more clarification :</label>
+                                <input type="file " class="form-control " id="images " multiple />
+                            </div> -->
+                            <!-- <div>
+                                <img id="imgD " />
+                            </div> -->
+                            <!-- <button type="submit " id="publish " class="btn btn-primary ">Publish Question</button> -->
+                            <div class="modal-footer shadow ">
+                                <button type="button" id="questionmodalclose" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" id="publish" class="btn btn-primary">Publish Question</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

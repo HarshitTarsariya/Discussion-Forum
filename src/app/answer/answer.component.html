@@ -1,0 +1,87 @@
+<div class="card p-4 shadow">
+    <div class="card-header shadow">
+        <div class="media">
+            <img class="d-flex rounded-circle avatar z-depth-1-half mr-3 shadow" routerLink="../../profile/{{questionwithanswer['asker']}}" style="cursor:pointer" src="assets/images/profile/{{questionwithanswer['asker']+'.jpg'}}" alt="Anonymous">
+            <div class="media-body mt-1 font-weight-bold">
+                <a routerLink="../../profile/{{questionwithanswer['asker']}}"><strong>{{questionwithanswer['asker']}} <span class="badge badge-primary"><i>Verified</i></span></strong></a>
+                <p class="card-text" style="float:right"><i class="fa fa-clock-o" aria-hidden="true"></i>{{questionwithanswer['time']}}</p>
+                <p class="card-text">
+                    {{questionwithanswer['title']}}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-1">
+                <div class="rating">
+                    <div><i class="fa fa-chevron-up"></i></div>
+                    <div><i class="fa fa-chevron-down"></i></div>
+                </div>
+            </div>
+            <div class="col-10">
+                <p>{{questionwithanswer['question']}}</p>
+                <br/>
+
+                <div *ngFor="let tag of questionwithanswer['tags']">
+                    <div class="chip" style="float: left;"> {{tag}}</div>
+                </div>
+                <br/><br/>
+                <div class="jumbotron" style="padding:5px;height:30px">
+                    <p><i class="fa fa-eye" aria-hidden="true"></i>15 views</p>
+                </div>
+
+                <a (click)="scrollToBottom()" class="btn btn-primary">Answer</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="jumbotron" style="padding:5px;height:50px;color:blue">
+    <h5><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/>
+      </svg> {{questionwithanswer['answers'].length}} Answers</h5>
+</div>
+
+<hr class="my-4">
+<div *ngFor="let answer of questionwithanswer['answers']">
+    <div class="card p-4 shadow">
+        <div class="card-header shadow">
+            <div class="media">
+                <img class="d-flex rounded-circle avatar z-depth-1-half mr-3 shadow" routerLink="../../profile/{{answer['answerer']}}" style="cursor:pointer" src="assets/images/profile/{{answer['answerer']+'.jpg'}}" alt="Anonymous">
+                <div class="media-body mt-1 font-weight-bold">
+                    <a routerLink="../../profile/{{answer['answerer']}}"><strong>{{answer['answerer']}} <span class="badge badge-primary"><i>Verified</i></span></strong></a>
+                    <p class="card-text" style="float:right"><i class="fa fa-clock-o" aria-hidden="true"></i>{{answer['time']}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-1">
+                    <div class="rating">
+                        <div><i class="fa fa-chevron-up"></i></div>
+                        <div><i class="fa fa-chevron-down"></i></div>
+                    </div>
+                </div>
+                <div class="col-10">
+                    <p>{{answer['answer']}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <hr class="my-4">
+    <br/>
+</div>
+
+<br/>
+<div class="container-fluid" style="display:none" id="edit">
+    <h1 class="h4 mb-4">Leave an answer</h1>
+    <form #answerform="ngForm" (ngSubmit)="PublishAnswer(answer)">
+        <div class="form-group shadow">
+            <textarea #answer ngModel name="edit" class="form-control shadow" rows="15"></textarea>
+            <br/>
+            <button type="submit" class="btn btn-primary">Publish</button>
+        </div>
+    </form>
+</div>
