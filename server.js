@@ -8,6 +8,7 @@ var fs = require('fs');
 var nodemailer = require('nodemailer');
 const { Console } = require('console');
 const formidable = require('formidable');
+const path = require('path');
 app.get('/*', (req, res) => {
         res.sendFile(path.join(__dirname + '/dist/index.html'))
     })
