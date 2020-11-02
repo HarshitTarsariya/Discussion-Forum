@@ -8,7 +8,9 @@ var fs = require('fs');
 var nodemailer = require('nodemailer');
 const { Console } = require('console');
 const formidable = require('formidable');
-
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/dist/index.html'))
+})
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://127.0.0.1:27017/DiscussionForum', { useNewUrlParser: true }, (err) => {
