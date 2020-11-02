@@ -12,7 +12,7 @@ const formidable = require('formidable');
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://127.0.0.1:27017/DiscussionForum', { useNewUrlParser: true }, (err) => {
-
+    //mongodb+srv://Harshit:harshit@7600@cluster0.jczl1.mongodb.net/DiscussionForum?retryWrites=true&w=majority
     if (err) {
         console.log('=======Can not connect to the database=======' + err);
     } else {
