@@ -9,11 +9,11 @@ var nodemailer = require('nodemailer');
 const { Console } = require('console');
 const formidable = require('formidable');
 app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname + '/dist/index.html'))
-})
-
+        res.sendFile(path.join(__dirname + '/dist/index.html'))
+    })
+    //mongodb://127.0.0.1:27017/DiscussionForum
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://127.0.0.1:27017/DiscussionForum', { useNewUrlParser: true }, (err) => {
+mongoose.connect('mongodb+srv://Harshit:harshit@7600@cluster0.jczl1.mongodb.net/DiscussionForum?retryWrites=true&w=majority', { useNewUrlParser: true }, (err) => {
     //mongodb+srv://Harshit:harshit@7600@cluster0.jczl1.mongodb.net/DiscussionForum?retryWrites=true&w=majority
     if (err) {
         console.log('=======Can not connect to the database=======' + err);
@@ -28,7 +28,8 @@ app.use(bodyParser.raw());
 
 app.use(cors());
 
-const port = 3000;
+//const port = 3000;
+const port = process.env.PORT || 8080;
 app.listen(port, function() {
     console.log("=======Server Started Listening=======");
 });
