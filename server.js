@@ -1,4 +1,3 @@
-//server.js package.json angular.json
 var express = require('express');
 var bodyParser = require('body-parser');
 var https = require('https');
@@ -9,14 +8,11 @@ var fs = require('fs');
 var nodemailer = require('nodemailer');
 const { Console } = require('console');
 const formidable = require('formidable');
-const path = require('path');
-app.get('/*', (req, res) => {
-        res.sendFile(path.join(__dirname + '/dist/index.html'))
-    })
-    //mongodb://127.0.0.1:27017/DiscussionForum
+
+
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb+srv://Harshit:harshit@7600@cluster0.jczl1.mongodb.net/DiscussionForum?retryWrites=true&w=majority', { useNewUrlParser: true }, (err) => {
-    //mongodb+srv://Harshit:harshit@7600@cluster0.jczl1.mongodb.net/DiscussionForum?retryWrites=true&w=majority
+mongoose.connect('mongodb://127.0.0.1:27017/DiscussionForum', { useNewUrlParser: true }, (err) => {
+
     if (err) {
         console.log('=======Can not connect to the database=======' + err);
     } else {
@@ -30,8 +26,7 @@ app.use(bodyParser.raw());
 
 app.use(cors());
 
-//const port = 3000;
-const port = process.env.PORT || 8080;
+const port = 3000;
 app.listen(port, function() {
     console.log("=======Server Started Listening=======");
 });
@@ -71,17 +66,17 @@ function sendMail(receiver, otp = -1) {
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'Your Email',
-            pass: 'Your Password'
+            user: 'examportalcoremvc@gmail.com',
+            pass: 'examportal@123'
         }
     });
     var mailOptions;
     if (otp == -1) {
         mailOptions = {
-            from: 'Your Email',
+            from: 'examportalcoremvc@gmail.com',
             to: receiver,
             subject: 'no-reply DiscussionForum',
-            html: '<img src="cid:dsforum" width="1200" height="800"/>', //img that is shown in email
+            html: '<img src="cid:dsforum" width="1200" height="800"/>',
             attachments: [{
                 filename: 'mail.jpg',
                 path: './mail1.jpg',
@@ -90,7 +85,7 @@ function sendMail(receiver, otp = -1) {
         };
     } else {
         mailOptions = {
-            from: 'Your Email',
+            from: 'examportalcoremvc@gmail.com',
             to: receiver,
             subject: 'no-reply DiscussionForum',
             html: '<h3>Request for changing password received<h3><h4>Otp is <b>' + otp + '</b></h4>' + '<h4>Please Donot Share with Anyone</h4><br/><h5>If you are not one who requested , contact <b>DiscussionForum@df.com</b></h5>'
